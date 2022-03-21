@@ -1,0 +1,14 @@
+name: Werewolf
+version: '${version}'
+main: dev.moru3.werewolf.Werewolf
+api-version: 1.18
+authors: [ moru3_48 ]
+commands:
+  werewolf:
+    description: werewolf
+    permission: werewolf.admin
+  medium:
+    description: 対象者を禮拜します・
+permissions:
+  werewolf.admin:
+    default: op

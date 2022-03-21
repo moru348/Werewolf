@@ -1,0 +1,15 @@
+roles:
+  wolf:
+    max: 2
+  villager:
+    max: 1000
+  seer:
+    max: 1
+  doctor:
+    max: 1
+  medium:
+    max: 1
+  madman:
+    max: 1
+game:
+  time: 600
