@@ -8,7 +8,6 @@ import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.Particle
 import org.bukkit.Sound
 import org.bukkit.inventory.ItemStack
 

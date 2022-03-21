@@ -5,9 +5,6 @@ import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEntityEvent
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
 import net.md_5.bungee.api.ChatColor
-import org.bukkit.event.player.PlayerInteractEntityEvent
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.inventory.ItemStack
 
 abstract class AbstractShopItem(vararg unique: Role = Role.values()): ShopItem {
     override val unique: List<Role> = unique.toList()

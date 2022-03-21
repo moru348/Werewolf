@@ -4,7 +4,6 @@ import dev.moru3.minepie.events.EventRegister.Companion.registerEvent
 import dev.moru3.minepie.item.Item
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
-import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -14,9 +13,6 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.Damageable
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 import java.util.*
 
 class WolfAxe: AbstractShopItem(Role.WOLF) {

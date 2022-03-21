@@ -18,8 +18,8 @@ class InvisibleBall: AbstractShopItem() {
 
     init {
         Bukkit.getScheduler().runTaskTimer(Werewolf.INSTANCE, Runnable {
-            Werewolf.INSTANCE.gameInstances.forEach {
-                it.players.values.forEach s@{
+            Werewolf.INSTANCE.gameInstances.forEach { game ->
+                game.players.values.forEach s@{
                     val player = it.player?:return@s
                     val item = player.inventory.itemInMainHand
                     val displayName = item.itemMeta?.displayName?:return@s

@@ -10,8 +10,7 @@ class Grave(location: Location, val playerData: PlayerData, val reason: String) 
     val location = location.clone()
     init {
         val block = this.location.block
-        val blockData = block.blockData
-        when(blockData) {
+        when(val blockData = block.blockData) {
             is Directional -> {
                 when(block.type) {
                     Material.LADDER, Material.VINE -> {

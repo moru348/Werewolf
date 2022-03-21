@@ -1,14 +1,9 @@
 package dev.moru3.werewolf.item
 
-import dev.moru3.minepie.events.EventRegister.Companion.registerEvent
 import dev.moru3.werewolf.PlayerData
 import dev.moru3.werewolf.Role
-import dev.moru3.werewolf.Werewolf
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEntityEvent
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
-import org.bukkit.Bukkit
-import org.bukkit.event.player.PlayerInteractEntityEvent
-import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 
 interface ShopItem {

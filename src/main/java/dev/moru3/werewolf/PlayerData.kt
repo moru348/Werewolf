@@ -7,7 +7,7 @@ import org.bukkit.scoreboard.DisplaySlot
 import org.bukkit.scoreboard.Team
 
 class PlayerData(val game: Game, val role: Role, player: Player) {
-    val scoreboardManager = Bukkit.getServer().scoreboardManager?:throw IllegalStateException("スコアボードの作成に失敗しました。")
+    private val scoreboardManager = Bukkit.getServer().scoreboardManager?:throw IllegalStateException("スコアボードの作成に失敗しました。")
 
     val uniqueId = player.uniqueId
 
@@ -55,5 +55,6 @@ class PlayerData(val game: Game, val role: Role, player: Player) {
         objective.getScore("${ChatColor.GRAY}あなたの役職: ${role.color}${role.displayName}").score = 5
         objective.getScore("${ChatColor.YELLOW}所持金: ").score = 4
         moneyTeam.suffix = "${money}円"
+        playerCounterTeam.suffix = "${game.players.values.count { it.isAlive }}人"
     }
 }

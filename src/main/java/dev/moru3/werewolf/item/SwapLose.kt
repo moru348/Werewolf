@@ -23,7 +23,8 @@ class SwapLose: AbstractShopItem(Role.MADMAN) {
     override val price: Int = 220
 
     override fun onClick(event: WerewolfPlayerInteractEvent) {
-        val wolfs = event.playerData.game.players.filter { it.value.role == Role.WOLF }.filter { it.value.isAlive }.keys.map { Bukkit.getPlayer(it) }.filterNotNull()
+        val wolfs = event.playerData.game.players.filter { it.value.role == Role.WOLF }
+            .filter { it.value.isAlive }.keys.mapNotNull { Bukkit.getPlayer(it) }
         if(wolfs.isEmpty()) {
             event.player.sendMessage("人狼がいないため使用できない...")
         } else {

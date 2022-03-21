@@ -5,9 +5,6 @@ import dev.moru3.werewolf.Role
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.PotionMeta
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 
 class DummySeer: AbstractShopItem(Role.MADMAN) {
     override val item: ItemStack

@@ -18,7 +18,7 @@ class GlowInk: AbstractShopItem() {
 
     override fun onClick(event: WerewolfPlayerInteractEvent) {
         event.item!!.amount--
-        event.playerData.game.players.keys.map { Bukkit.getPlayer(it) }.filterNotNull().forEach {
+        event.playerData.game.players.keys.mapNotNull { Bukkit.getPlayer(it) }.forEach {
             it.playSound(it,Sound.ENTITY_BEE_STING,2F,0F)
             it.addPotionEffect(PotionEffect(PotionEffectType.GLOWING,300,1,false,false,false))
             it.sendTitle("${ChatColor.YELLOW}${ChatColor.BOLD}${ChatColor.MAGIC}~ ${ChatColor.YELLOW}${ChatColor.BOLD}Glowing... ${ChatColor.YELLOW}${ChatColor.BOLD}${ChatColor.MAGIC}~","ピッカピカに体が光ってます。",0,100,20)

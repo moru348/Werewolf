@@ -1,6 +1,5 @@
 package dev.moru3.werewolf.item
 
-import dev.moru3.minepie.Executor.Companion.runTaskLater
 import dev.moru3.minepie.events.EventRegister.Companion.registerEvent
 import dev.moru3.minepie.item.Item
 import dev.moru3.werewolf.Role

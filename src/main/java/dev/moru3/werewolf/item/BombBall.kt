@@ -1,18 +1,14 @@
 package dev.moru3.werewolf.item
 
-import dev.moru3.minepie.Executor.Companion.runTaskLater
 import dev.moru3.minepie.events.EventRegister.Companion.registerEvent
 import dev.moru3.minepie.item.Item
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
-import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
 import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.entity.ProjectileLaunchEvent
-import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.inventory.ItemStack
-import java.util.UUID
 
 class BombBall: AbstractShopItem(Role.WOLF) {
     override val item: ItemStack

@@ -17,7 +17,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
-import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.entity.ProjectileHitEvent
@@ -33,26 +32,26 @@ import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 
-class Game(val main: Werewolf): Listener {
+class Game(private val main: Werewolf): Listener {
 
     init {
         main.gameInstances.add(this)
         Bukkit.getPluginManager().registerEvents(this, main)
     }
 
-    var isStarting = false
+    private var isStarting = false
 
-    var time = -10
+    private var time = -10
 
     var players = mutableMapOf<UUID, PlayerData>()
 
-    val waitingPlayers = mutableListOf<UUID>()
+    private val waitingPlayers = mutableListOf<UUID>()
 
-    var bukkitTask: BukkitTask? = null
+    private var bukkitTask: BukkitTask? = null
 
     fun start(location: Location, ignore: List<String> = listOf()) {
         // isSingletonがtrueかつ、別のゲームが実行中の場合は実行停止。
-        Bukkit.broadcastMessage("次のプレイヤーを除外します: ${ignore}")
+        Bukkit.broadcastMessage("次のプレイヤーを除外します: $ignore")
         if(main.isSingleton && main.gameInstances.any(Game::isStarting)) {
             throw IllegalStateException("ゲームの並列実行は有効ではありません。他のゲームが終了するまでお待ち下さい。")
         } else {
@@ -135,7 +134,6 @@ class Game(val main: Werewolf): Listener {
                                         player.inventory.addItem(Items.MEDIUM_ITEM.item)
                                     }
                                     Role.MADMAN -> { player.inventory.addItem(Items.SWAP_LOSE.item) }
-                                    else -> {}
                                 }
                                 Role.values().forEach {
                                     player.inventory.addItem(Item(Material.LEATHER_HELMET,"${it.color}${it.displayName}Coします。").also { item ->
@@ -149,8 +147,8 @@ class Game(val main: Werewolf): Listener {
                         role2MaxValue.forEach {
                             Bukkit.broadcastMessage("${it.key.color}${it.key.displayName}: ${it.value}人")
                         }
-                        this.players.values.filter { it.role == Role.WOLF }.forEach {
-                            it.player?.sendMessage("${ChatColor.RED}[人狼] 人狼は: ${this.players.values.filter { it.role == Role.WOLF }.map { it.offlinePlayer.name }.joinToString(" ")} です。")
+                        this.players.values.filter { it.role == Role.WOLF }.forEach { playerData ->
+                            playerData.player?.sendMessage("${ChatColor.RED}[人狼] 人狼は: ${this.players.values.filter { it.role == Role.WOLF }.map { it.offlinePlayer.name }.joinToString(" ")} です。")
                         }
                         players.forEach {
                             it.sendMessage("${ChatColor.RED}[人狼] ゲームを開始しました。ゲーム時間は10分です。")
@@ -189,10 +187,10 @@ class Game(val main: Werewolf): Listener {
         }
     }
 
-    fun end(winner: Team) {
+    private fun end(winner: Team) {
         time = -10
         bukkitTask?.cancel()
-        try { Items.HEALTH_CHARGER.locations.forEach { if(it.value == this) { it.key.block.type = Material.AIR;Items.HEALTH_CHARGER.locations.remove(it.key) } } } catch (e: Exception) {}
+        try { Items.HEALTH_CHARGER.locations.forEach { if(it.value == this) { it.key.block.type = Material.AIR;Items.HEALTH_CHARGER.locations.remove(it.key) } } } catch (_: Exception) {}
         try { Items.FAKE_HEALTH_CHARGER.locations.forEach { if(it.value == this) { it.key.block.type = Material.AIR;Items.HEALTH_CHARGER.locations.remove(it.key) } } } catch (_: Exception) {}
         this.players.values.forEach { playerData ->
             val player = playerData.player?:return@forEach
@@ -260,6 +258,10 @@ class Game(val main: Werewolf): Listener {
         player.gameMode = GameMode.SPECTATOR
         player.inventory.clear()
 
+        players.values.forEach { playerData1 ->
+            playerData1.playerCounterTeam.suffix = "${players.values.count { it.isAlive }}人"
+        }
+
         if(playerData.role == Role.WOLF) {
             this.players.values.filter { it.role == Role.MADMAN }.forEach {
                 it.player?.sendMessage("${ChatColor.RED}[人狼] 人狼が一人死亡しましtあ。")
@@ -278,9 +280,9 @@ class Game(val main: Werewolf): Listener {
         }
 
         // Grave(location, playerData, reason)
-        if(this.players.values.filter { it.role.team == Team.WOLF }.filter { it.isAlive }.isEmpty()) {
+        if(this.players.values.filter { it.role.team == Team.WOLF }.none { it.isAlive }) {
             end(Team.VILLAGE)
-        } else if(this.players.values.filter { it.role.team == Team.VILLAGE }.filter { it.isAlive }.isEmpty()) {
+        } else if(this.players.values.filter { it.role.team == Team.VILLAGE }.none { it.isAlive }) {
             end(Team.WOLF)
         }
     }
@@ -292,7 +294,7 @@ class Game(val main: Werewolf): Listener {
 
     @EventHandler
     fun onInventoryClick(event: InventoryClickEvent) {
-        val playerData = players[event.whoClicked.uniqueId]?:return
+        players[event.whoClicked.uniqueId]?:return
         if(event.currentItem?.itemMeta?.displayName==Japanese.openShop) {
             event.isCancelled = true
         }

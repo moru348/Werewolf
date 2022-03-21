@@ -17,7 +17,7 @@ class TeleportDiamond: AbstractShopItem(Role.WOLF) {
 
     override val price: Int = 400
 
-    val locations = mutableMapOf<Location, Game>()
+    private val locations = mutableMapOf<Location, Game>()
 
     override fun onClick(event: WerewolfPlayerInteractEvent) {
         event.item!!.amount--
