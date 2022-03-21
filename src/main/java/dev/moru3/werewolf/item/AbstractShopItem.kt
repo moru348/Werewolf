@@ -29,14 +29,14 @@ abstract class AbstractShopItem(vararg unique: Role = Role.values()): ShopItem {
 
     override fun buy(playerData: PlayerData): Boolean {
         val player = playerData.player?:return false
-        if(playerData.money >= price) {
+        return if(playerData.money >= price) {
             playerData.money -= price
             player.inventory.addItem(item)
             player.sendMessage("${ChatColor.YELLOW}[SHOP] ${displayName} を購入しました。")
-            return true
+            true
         } else {
             player.sendMessage("${ChatColor.YELLOW}[SHOP] 所持金が足りません。")
-            return false
+            false
         }
     }
 

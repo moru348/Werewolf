@@ -26,6 +26,7 @@ class SeerItem: AbstractShopItem(Role.SEER) {
         event.player.inventory.itemInMainHand.amount = 0
         Werewolf.INSTANCE.runTaskLater(100) {
             players.remove(event.player.uniqueId)
+            event.player.sendMessage("${targetData.offlinePlayer.name}は${if(targetData.role==Role.WOLF) "人狼" else "村人"}です。")
             event.player.sendTitle("${ChatColor.GREEN}${ChatColor.BOLD}${ChatColor.MAGIC}~ ${ChatColor.GREEN}${ChatColor.BOLD}結果 ${ChatColor.GREEN}${ChatColor.BOLD}${ChatColor.MAGIC}~","${targetData.offlinePlayer.name}は${if(targetData.role==Role.WOLF) "人狼" else "村人"}です。",20,100,20)
         }
     }

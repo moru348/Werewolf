@@ -12,7 +12,7 @@ enum class Role(val displayName: String, val color: ChatColor = ChatColor.WHITE,
 
 }
 
-enum class Team(val displayName: String) {
-    VILLAGE("村人"),
-    WOLF("人狼")
+enum class Team(val displayName: String,val color: ChatColor) {
+    VILLAGE("村人", ChatColor.GOLD),
+    WOLF("人狼", ChatColor.DARK_RED)
 }

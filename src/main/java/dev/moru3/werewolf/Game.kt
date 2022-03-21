@@ -196,10 +196,9 @@ class Game(val main: Werewolf): Listener {
         try { Items.FAKE_HEALTH_CHARGER.locations.forEach { if(it.value == this) { it.key.block.type = Material.AIR;Items.HEALTH_CHARGER.locations.remove(it.key) } } } catch (_: Exception) {}
         this.players.values.forEach { playerData ->
             val player = playerData.player?:return@forEach
-            player.sendTitle("${ChatColor.GOLD}${ChatColor.BOLD}${winner.displayName}陣営の勝利",if(playerData.role.team==winner) "勝利しました！" else "敗北しました。", 20, 200, 20)
+            player.sendTitle("${winner.color}${ChatColor.BOLD}${winner.displayName}陣営の勝利",if(playerData.role.team==winner) "勝利しました！" else "敗北しました。", 20, 200, 20)
             player.sendMessage("${ChatColor.RED}============ 結果 ============")
             player.sendMessage("${ChatColor.RED}勝者: ${ChatColor.YELLOW}${winner.displayName}陣営")
-            println(this.players.values.map { it.role })
             player.sendMessage("${ChatColor.RED}${Role.WOLF.displayName}: ${this.players.values.filter { it.role==Role.WOLF }.map { it.offlinePlayer.name }.joinToString(", ")}")
             if(this.players.values.map { it.role }.contains(Role.MADMAN)) {
                 player.sendMessage("${ChatColor.RED}${Role.MADMAN.displayName}: ${this.players.values.filter { it.role==Role.MADMAN }.map { it.offlinePlayer.name }.joinToString(", ")}")
@@ -215,7 +214,7 @@ class Game(val main: Werewolf): Listener {
                 player.sendMessage("${ChatColor.RED}${Role.MEDIUM.displayName}: ${this.players.values.filter { it.role==Role.MEDIUM }.map { it.offlinePlayer.name }.joinToString(", ")}")
             }
             player.sendMessage("${ChatColor.RED}============ 結果 ============")
-            player.sendMessage("${ChatColor.GOLD}[人狼] ${winner.displayName}陣営の勝利です！")
+            player.sendMessage("${winner.color}[人狼] ${winner.displayName}陣営の勝利です！")
             player.playSound(player,Sound.ENTITY_FIREWORK_ROCKET_BLAST,1F,1F)
             playerData.objective.unregister()
             player.closeInventory()
@@ -232,7 +231,7 @@ class Game(val main: Werewolf): Listener {
     @EventHandler
     fun onProjectileHitEvent(event: ProjectileHitEvent) {
         if(event.entity.type==EntityType.ARROW&&event.hitEntity!=null&&event.hitEntity is Player&&players.containsKey(event.hitEntity?.uniqueId)) {
-            (event.hitEntity as Player).damage(((event.hitEntity as Player).healthScale/3))
+            (event.hitEntity as Player).damage(minOf((event.hitEntity as Player).healthScale/3, (event.hitEntity as Player).health))
         }
     }
 
@@ -317,7 +316,7 @@ class Game(val main: Werewolf): Listener {
         }
     }
 
-    fun sec2string(sec: Int): String {
+    private fun sec2string(sec: Int): String {
         return "${maxOf(sec/60,0)}分${maxOf(sec%60,0)}秒"
     }
 
