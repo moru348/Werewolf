@@ -1,7 +1,7 @@
 package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.events.EventRegister.Companion.registerEvent
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEntityEvent
@@ -14,7 +14,7 @@ import java.util.*
 
 class DoctorSword: AbstractShopItem(Role.DOCTOR) {
     override val item: ItemStack
-        get() = Item(Material.IRON_SWORD, "回復", listOf("${ChatColor.GRAY}プレイヤーを殴ると回復します。"))
+        get() = EasyItem(Material.IRON_SWORD, "回復", listOf("${ChatColor.GRAY}プレイヤーを殴ると回復します。"))
 
     override val showInShop: Boolean = false
 

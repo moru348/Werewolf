@@ -1,7 +1,7 @@
 package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.Executor.Companion.runTaskLater
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffectType
 
 class LightningRod: AbstractShopItem(Role.WOLF) {
     override val item: ItemStack
-        get() = Item(Material.LIGHTNING_ROD,"${ChatColor.DARK_RED}停電", listOf("${ChatColor.GRAY}人狼以外のプレイヤーに盲目をつける"))
+        get() = EasyItem(Material.LIGHTNING_ROD,"${ChatColor.DARK_RED}停電", listOf("${ChatColor.GRAY}人狼以外のプレイヤーに盲目をつける"))
 
     override val price: Int = 400
 

@@ -2,7 +2,7 @@ package dev.moru3.werewolf
 
 import dev.moru3.minepie.Executor.Companion.runTaskLater
 import dev.moru3.minepie.customgui.inventory.CustomContentsSyncGui.Companion.createCustomContentsGui
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.item.Items
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.ClickEvent
@@ -17,6 +17,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.entity.ProjectileHitEvent
@@ -25,6 +26,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.potion.PotionEffect
@@ -51,7 +53,6 @@ class Game(private val main: Werewolf): Listener {
 
     fun start(location: Location, ignore: List<String> = listOf()) {
         // isSingletonがtrueかつ、別のゲームが実行中の場合は実行停止。
-        Bukkit.broadcastMessage("次のプレイヤーを除外します: $ignore")
         if(main.isSingleton && main.gameInstances.any(Game::isStarting)) {
             throw IllegalStateException("ゲームの並列実行は有効ではありません。他のゲームが終了するまでお待ち下さい。")
         } else {
@@ -109,7 +110,7 @@ class Game(private val main: Werewolf): Listener {
                                 this.players[player.uniqueId] = PlayerData(this, role, player)
                                 player.scoreboard = this.players[player.uniqueId]?.scoreBoard!!
                                 main.players[player.uniqueId] = this.players[player.uniqueId]!!
-                                player.inventory.setItem(8,Item(Material.AMETHYST_SHARD, Japanese.openShop, listOf("${ChatColor.GRAY}右クリックすることでショップを利用できます。")))
+                                player.inventory.setItem(8,EasyItem(Material.AMETHYST_SHARD, Japanese.openShop, listOf("${ChatColor.GRAY}右クリックすることでショップを利用できます。")))
                                 player.inventory.addItem(ItemStack(Material.BOW).also { itemStack -> itemStack.itemMeta = itemStack.itemMeta?.also { itemMeta ->
                                     itemMeta.addEnchant(Enchantment.ARROW_INFINITE,1,true)
                                     itemMeta.isUnbreakable = true
@@ -136,7 +137,7 @@ class Game(private val main: Werewolf): Listener {
                                     Role.MADMAN -> { player.inventory.addItem(Items.SWAP_LOSE.item) }
                                 }
                                 Role.values().forEach {
-                                    player.inventory.addItem(Item(Material.LEATHER_HELMET,"${it.color}${it.displayName}Coします。").also { item ->
+                                    player.inventory.addItem(EasyItem(Material.LEATHER_HELMET,"${it.color}${it.displayName}Coします。").also { item ->
                                         item.itemMeta = (item.itemMeta as LeatherArmorMeta).also { meta ->
                                             meta.setColor(Color.fromRGB(it.color.color.red,it.color.color.green,it.color.color.blue))
                                         }
@@ -187,11 +188,12 @@ class Game(private val main: Werewolf): Listener {
         }
     }
 
-    private fun end(winner: Team) {
+    fun end(winner: Team) {
         time = -10
         bukkitTask?.cancel()
         try { Items.HEALTH_CHARGER.locations.forEach { if(it.value == this) { it.key.block.type = Material.AIR;Items.HEALTH_CHARGER.locations.remove(it.key) } } } catch (_: Exception) {}
         try { Items.FAKE_HEALTH_CHARGER.locations.forEach { if(it.value == this) { it.key.block.type = Material.AIR;Items.HEALTH_CHARGER.locations.remove(it.key) } } } catch (_: Exception) {}
+        cadavers.forEach { it.npc.destroy() }
         this.players.values.forEach { playerData ->
             val player = playerData.player?:return@forEach
             player.sendTitle("${winner.color}${ChatColor.BOLD}${winner.displayName}陣営の勝利",if(playerData.role.team==winner) "勝利しました！" else "敗北しました。", 20, 200, 20)
@@ -229,7 +231,18 @@ class Game(private val main: Werewolf): Listener {
     @EventHandler
     fun onProjectileHitEvent(event: ProjectileHitEvent) {
         if(event.entity.type==EntityType.ARROW&&event.hitEntity!=null&&event.hitEntity is Player&&players.containsKey(event.hitEntity?.uniqueId)) {
-            (event.hitEntity as Player).damage(minOf((event.hitEntity as Player).healthScale/3, (event.hitEntity as Player).health))
+            (event.hitEntity as Player).damage(minOf((event.hitEntity as Player).healthScale/2, (event.hitEntity as Player).health))
+        }
+    }
+
+    @EventHandler
+    fun onDamage(event: EntityDamageEvent) {
+        val playerData = players[event.entity.uniqueId]?:return
+        when(event.cause) {
+            EntityDamageEvent.DamageCause.FALL -> {
+                event.isCancelled = true
+            }
+            else -> {}
         }
     }
 
@@ -249,14 +262,23 @@ class Game(private val main: Werewolf): Listener {
         }
     }
 
+    val cadavers = mutableListOf<Cadaver>()
+
     @EventHandler
     fun onDeath(event: PlayerDeathEvent) {
         val player = event.entity
         val playerData = players[player.uniqueId]?:return
         if(!playerData.isAlive) { return }
+        event.drops.clear()
+        event.droppedExp = 0
         playerData.isAlive = false
         player.gameMode = GameMode.SPECTATOR
         player.inventory.clear()
+        event.deathMessage = null
+
+        cadavers.add(Cadaver(player))
+
+        event.entity.spigot().respawn()
 
         players.values.forEach { playerData1 ->
             playerData1.playerCounterTeam.suffix = "${players.values.count { it.isAlive }}人"
@@ -308,7 +330,7 @@ class Game(private val main: Werewolf): Listener {
     @EventHandler
     fun onInteract(event: PlayerInteractEvent) {
         val playerData = players[event.player.uniqueId]?:return
-        if(event.player.inventory.itemInMainHand.itemMeta?.displayName==Japanese.openShop) {
+        if(event.hand==EquipmentSlot.HAND&&event.player.inventory.itemInMainHand.itemMeta?.displayName==Japanese.openShop) {
             event.isCancelled = true
             main.createCustomContentsGui(2,"${ChatColor.DARK_RED}${ChatColor.BOLD}ショップ", 0,0, 8,1) {
                 Items.filter { it.unique.contains(playerData.role) }.filter { it.showInShop }.forEach { shopItem ->

@@ -1,6 +1,6 @@
 package dev.moru3.werewolf.item
 
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Game
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack
 
 class TeleportDiamond: AbstractShopItem(Role.WOLF) {
     override val item: ItemStack
-        get() = Item(Material.DIAMOND,"${ChatColor.AQUA}テレポートダイヤモンド", listOf("${ChatColor.GRAY}一度クリックしたところへ数回でも移動できるダイヤモンド"))
+        get() = EasyItem(Material.DIAMOND,"${ChatColor.AQUA}テレポートダイヤモンド", listOf("${ChatColor.GRAY}一度クリックしたところへ数回でも移動できるダイヤモンド"))
 
     override val price: Int = 400
 

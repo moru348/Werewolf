@@ -1,7 +1,7 @@
 package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.events.EventRegister.Companion.registerEvent
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
 import org.bukkit.Bukkit
@@ -17,7 +17,7 @@ import java.util.*
 
 class WolfAxe: AbstractShopItem(Role.WOLF) {
     override val item: ItemStack
-        get() = Item(Material.STONE_AXE,"${ChatColor.GRAY}すごいおの", listOf("${ChatColor.GRAY}2秒間手に持つと一撃でプレイヤーを殺害できる強いおの。5秒持たないと効果がない")).also { item ->
+        get() = EasyItem(Material.STONE_AXE,"${ChatColor.GRAY}すごいおの", listOf("${ChatColor.GRAY}2秒間手に持つと一撃でプレイヤーを殺害できる強いおの。5秒持たないと効果がない")).also { item ->
             item.itemMeta = item.itemMeta.also { meta ->
                 meta?.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, AttributeModifier("attack_speed",(1.0/4)-4,AttributeModifier.Operation.ADD_NUMBER))
             }

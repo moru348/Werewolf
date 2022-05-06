@@ -1,6 +1,6 @@
 package dev.moru3.werewolf.item
 
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
 import org.bukkit.ChatColor
@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack
 
 class SelfBomb: AbstractShopItem(Role.WOLF) {
     override val item: ItemStack
-        get() = Item(Material.TNT,"${ChatColor.DARK_RED}自爆", listOf("${ChatColor.GRAY}半径5mの範囲を巻き込んで自爆するやばい爆弾"))
+        get() = EasyItem(Material.TNT,"${ChatColor.DARK_RED}自爆", listOf("${ChatColor.GRAY}半径5mの範囲を巻き込んで自爆するやばい爆弾"))
 
     override val price: Int = 1000
 

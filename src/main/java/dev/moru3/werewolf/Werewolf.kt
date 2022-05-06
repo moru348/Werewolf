@@ -2,13 +2,10 @@ package dev.moru3.werewolf
 
 import dev.moru3.minepie.config.Config
 import dev.moru3.werewolf.item.Items
-import dev.moru3.werewolf.item.ShopItem
 import net.md_5.bungee.api.ChatColor
-import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -23,6 +20,10 @@ class Werewolf : JavaPlugin() {
         config.saveDefaultConfig()
         config.reloadConfig()
         Items.SWAP_LOSE
+    }
+
+    override fun onDisable() {
+        gameInstances.forEach { it.end(Team.WOLF) }
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
@@ -65,5 +66,6 @@ class Werewolf : JavaPlugin() {
 
     companion object {
         lateinit var INSTANCE: Werewolf
+        var isCitizensAvailable = false
     }
 }

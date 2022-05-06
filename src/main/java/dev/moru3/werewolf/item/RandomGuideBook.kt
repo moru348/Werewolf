@@ -1,7 +1,7 @@
 package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.Executor.Companion.runTaskLater
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack
 
 class RandomGuideBook: AbstractShopItem(Role.MADMAN) {
     override val item: ItemStack
-        get() = Item(Material.BOOK, "Random Guide Book", listOf("${ChatColor.GRAY}誰が人狼化を一匹だけ教えてくれる攻略本"))
+        get() = EasyItem(Material.BOOK, "Random Guide Book", listOf("${ChatColor.GRAY}誰が人狼化を一匹だけ教えてくれる攻略本"))
 
     override val price: Int = 800
 

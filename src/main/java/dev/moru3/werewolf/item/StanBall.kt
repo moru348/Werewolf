@@ -2,7 +2,7 @@ package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.Executor.Companion.runTaskLater
 import dev.moru3.minepie.events.EventRegister.Companion.registerEvent
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Werewolf
 import org.bukkit.*
 import org.bukkit.entity.Player
@@ -14,7 +14,7 @@ import java.util.*
 
 class StanBall: AbstractShopItem() {
     override val item: ItemStack
-        get() = Item(Material.SNOWBALL,"${ChatColor.GOLD}カラーボール", listOf("${ChatColor.GRAY}当たると4秒間スタンするボール"))
+        get() = EasyItem(Material.SNOWBALL,"${ChatColor.GOLD}カラーボール", listOf("${ChatColor.GRAY}当たると4秒間スタンするボール"))
 
     override val price: Int = 400
 

@@ -1,6 +1,6 @@
 package dev.moru3.werewolf.item
 
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Game
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Team
@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack
 
 class FakeHealthCharger: AbstractShopItem(Role.WOLF) {
     override val item: ItemStack
-        get() = Item(Material.REDSTONE_ORE,"${ChatColor.DARK_RED}ヘルスチャージャー", listOf("${ChatColor.GRAY}置くことで周囲3ブロック以内にいるプレイヤーにダメージを与える","${ChatColor.GRAY}人狼陣営の場合は受けるダメージが少ない。"))
+        get() = EasyItem(Material.REDSTONE_ORE,"${ChatColor.DARK_RED}ヘルスチャージャー", listOf("${ChatColor.GRAY}置くことで周囲3ブロック以内にいるプレイヤーにダメージを与える","${ChatColor.GRAY}人狼陣営の場合は受けるダメージが少ない。"))
 
     override val price: Int = 800
 

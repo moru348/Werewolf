@@ -1,6 +1,6 @@
 package dev.moru3.werewolf.item
 
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
 import org.bukkit.Bukkit
@@ -12,7 +12,7 @@ import org.bukkit.potion.PotionEffectType
 
 class InvisibleBall: AbstractShopItem() {
     override val item: ItemStack
-        get() = Item(Material.SLIME_BALL,"${ChatColor.WHITE}透明玉: 15.0秒", listOf("${ChatColor.GRAY}手に持ってる間だけ透明になります。"))
+        get() = EasyItem(Material.SLIME_BALL,"${ChatColor.WHITE}透明玉: 15.0秒", listOf("${ChatColor.GRAY}手に持ってる間だけ透明になります。"))
 
     override val price: Int = 200
 

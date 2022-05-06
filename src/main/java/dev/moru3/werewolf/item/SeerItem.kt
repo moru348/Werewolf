@@ -1,7 +1,7 @@
 package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.Executor.Companion.runTaskLater
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEntityEvent
@@ -12,7 +12,7 @@ import java.util.UUID
 
 class SeerItem: AbstractShopItem(Role.SEER) {
     override val item: ItemStack
-        get() = Item(Material.MUSIC_DISC_WAIT, "占い", listOf("${ChatColor.GRAY}プレイヤーを右クリックすることで人狼かどうかを占えます。"))
+        get() = EasyItem(Material.MUSIC_DISC_WAIT, "占い", listOf("${ChatColor.GRAY}プレイヤーを右クリックすることで人狼かどうかを占えます。"))
 
     override val price: Int = 400
 

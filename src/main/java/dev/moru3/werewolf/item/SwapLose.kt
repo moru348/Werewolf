@@ -1,7 +1,7 @@
 package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.Executor.Companion.runTaskLater
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack
  */
 class SwapLose: AbstractShopItem(Role.MADMAN) {
     override val item: ItemStack
-        get() = Item(Material.WITHER_ROSE, "Swap Lose", listOf("${ChatColor.GRAY}ランダムな人狼の位置と自分の位置を入れ替える。"))
+        get() = EasyItem(Material.WITHER_ROSE, "Swap Lose", listOf("${ChatColor.GRAY}ランダムな人狼の位置と自分の位置を入れ替える。"))
 
     override val price: Int = 220
 

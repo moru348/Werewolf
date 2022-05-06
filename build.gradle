@@ -33,6 +33,8 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'com.github.moru348:MinePie:87099537a9'
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 def targetJavaVersion = 8

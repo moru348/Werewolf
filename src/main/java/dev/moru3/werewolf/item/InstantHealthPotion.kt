@@ -1,6 +1,6 @@
 package dev.moru3.werewolf.item
 
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack
 
 class InstantHealthPotion: AbstractShopItem() {
     override val item: ItemStack
-        get() = Item(Material.REDSTONE, "${ChatColor.GREEN}即時回復のポーション", listOf("${ChatColor.GRAY}粉タイプの即時回復の粉。体力が全回復する。"))
+        get() = EasyItem(Material.REDSTONE, "${ChatColor.GREEN}即時回復のポーション", listOf("${ChatColor.GRAY}粉タイプの即時回復の粉。体力が全回復する。"))
 
     override val price: Int = 600
 

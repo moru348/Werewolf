@@ -1,7 +1,7 @@
 package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.events.EventRegister.Companion.registerEvent
-import dev.moru3.minepie.item.Item
+import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
 import dev.moru3.werewolf.Werewolf
 import org.bukkit.*
@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack
 
 class BombBall: AbstractShopItem(Role.WOLF) {
     override val item: ItemStack
-        get() = Item(Material.SNOWBALL,"${ChatColor.GOLD}爆発玉", listOf("${ChatColor.GRAY}投げることで爆発し、周囲に大ダメージを与える。だいたい死ぬ。"))
+        get() = EasyItem(Material.SNOWBALL,"${ChatColor.GOLD}爆発玉", listOf("${ChatColor.GRAY}投げることで爆発し、周囲に大ダメージを与える。だいたい死ぬ。"))
 
     override val price: Int = 1000
 

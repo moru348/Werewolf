@@ -8,7 +8,7 @@ commands:
     description: werewolf
     permission: werewolf.admin
   medium:
-    description: 対象者を禮拜します・
+    description: 対象者を禮拜します
 permissions:
   werewolf.admin:
     default: op
