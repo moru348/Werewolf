@@ -28,12 +28,12 @@ class FakeHealthCharger: AbstractShopItem(Role.WOLF) {
     init {
         Bukkit.getScheduler().runTaskTimer(Werewolf.INSTANCE, Runnable {
             locations.forEach { (location, game) ->
-                game.players.values.filter { it.role.team==Team.VILLAGE }.mapNotNull { it.player }.filter { location.distance(it.location) < 3 }.forEach {
+                game.players.values.filter { it.role.team==Team.VILLAGE }.mapNotNull { it.player }.filter { location.world==it.world }.filter { location.distance(it.location) < 3 }.forEach {
                     it.damage(minOf(8.0,it.health))
                     it.sendTitle("${ChatColor.DARK_RED}${ChatColor.BOLD}${ChatColor.MAGIC}~ ${ChatColor.DARK_RED}${ChatColor.BOLD}Damage!! ${ChatColor.DARK_RED}${ChatColor.BOLD}${ChatColor.MAGIC}~","偽物のヘルスチャージャーのようだ。",0,1,30)
                     it.playSound(it, Sound.ENTITY_PLAYER_ATTACK_CRIT,1F,1F)
                 }
-                game.players.values.filter { it.role.team==Team.WOLF }.mapNotNull { it.player }.filter { location.distance(it.location) < 3 }.forEach {
+                game.players.values.filter { it.role.team==Team.WOLF }.mapNotNull { it.player }.filter { location.world==it.world }.filter { location.distance(it.location) < 3 }.forEach {
                     it.health -= minOf(1.0,it.healthScale)
                     it.sendTitle("${ChatColor.DARK_RED}${ChatColor.BOLD}${ChatColor.MAGIC}~ ${ChatColor.DARK_RED}${ChatColor.BOLD}Damage!! ${ChatColor.DARK_RED}${ChatColor.BOLD}${ChatColor.MAGIC}~","偽物のヘルスチャージャーのようだ。",0,1,30)
                     it.playSound(it, Sound.ENTITY_PLAYER_ATTACK_CRIT,1F,1F)

@@ -13,11 +13,13 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import java.util.*
 
 class WolfAxe: AbstractShopItem(Role.WOLF) {
     override val item: ItemStack
-        get() = EasyItem(Material.STONE_AXE,"${ChatColor.GRAY}すごいおの", listOf("${ChatColor.GRAY}2秒間手に持つと一撃でプレイヤーを殺害できる強いおの。5秒持たないと効果がない")).also { item ->
+        get() = EasyItem(Material.STONE_AXE,"${ChatColor.GRAY}すごいおの", listOf("${ChatColor.GRAY}2秒間手に持つと一撃でプレイヤーを殺害","できる強いおの。2秒持たないと効果がない")).also { item ->
             item.itemMeta = item.itemMeta.also { meta ->
                 meta?.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, AttributeModifier("attack_speed",(1.0/4)-4,AttributeModifier.Operation.ADD_NUMBER))
             }
@@ -48,6 +50,7 @@ class WolfAxe: AbstractShopItem(Role.WOLF) {
             Bukkit.getOnlinePlayers().forEach { player ->
                 if (item.itemMeta?.displayName == (player.inventory.itemInMainHand.itemMeta?.displayName ?: UUID.randomUUID().toString())) {
                     players[player] = (players[player]?:0) + 1
+                    player.addPotionEffect(PotionEffect(PotionEffectType.SLOW,20,1))
                     player.sendTitle("${net.md_5.bungee.api.ChatColor.DARK_PURPLE}${net.md_5.bungee.api.ChatColor.BOLD}${net.md_5.bungee.api.ChatColor.MAGIC}~ ${net.md_5.bungee.api.ChatColor.DARK_PURPLE}${net.md_5.bungee.api.ChatColor.BOLD}斧 ${net.md_5.bungee.api.ChatColor.DARK_PURPLE}${net.md_5.bungee.api.ChatColor.BOLD}${net.md_5.bungee.api.ChatColor.MAGIC}~",if((players[player]?:0) > 2) "パワーをチャージしました。" else "チャージ中...",20,60,20)
                 } else {
                     players[player] = 0

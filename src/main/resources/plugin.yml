@@ -12,3 +12,6 @@ commands:
 permissions:
   werewolf.admin:
     default: op
+softdepend:
+  - Citizens
+  - ProtocolLib

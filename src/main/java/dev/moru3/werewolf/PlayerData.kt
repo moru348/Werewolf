@@ -56,5 +56,14 @@ class PlayerData(val game: Game, val role: Role, player: Player) {
         objective.getScore("${ChatColor.YELLOW}所持金: ").score = 4
         moneyTeam.suffix = "${money}円"
         playerCounterTeam.suffix = "${game.players.values.count { it.isAlive }}人"
+        if(player.scoreboard.getTeam("hidetag")==null) {
+            player.scoreboard.registerNewTeam("hidetag").also {
+                it.addEntry(this.player?.name.toString())
+                it.setOption(Team.Option.NAME_TAG_VISIBILITY,Team.OptionStatus.NEVER)
+                it.setCanSeeFriendlyInvisibles(false)
+            }
+        } else {
+            player.scoreboard.getTeam("hidetag")?.addEntry(this.player?.name.toString())
+        }
     }
 }

@@ -29,7 +29,7 @@ class HealthCharger: AbstractShopItem(Role.DOCTOR) {
     init {
         Bukkit.getScheduler().runTaskTimer(Werewolf.INSTANCE, Runnable {
             locations.forEach { (location, game) ->
-                game.players.values.mapNotNull { it.player }.filter { location.distance(it.location) < 3 }.forEach {
+                game.players.values.mapNotNull { it.player }.filter { player -> Werewolf.INSTANCE.gameInstances.any { it.players.containsKey(player.uniqueId) } }.filter { location.distance(it.location) < 3 }.forEach {
                     it.health = minOf(it.health+1,it.healthScale)
                     it.sendTitle("${ChatColor.RED}${ChatColor.BOLD}${ChatColor.MAGIC}~ ${ChatColor.RED}${ChatColor.BOLD}Healing... ${ChatColor.RED}${ChatColor.BOLD}${ChatColor.MAGIC}~","ヘルスチャージャーで体力を回復しています。",0,1,30)
                 }

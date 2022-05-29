@@ -2,6 +2,7 @@ package dev.moru3.werewolf.item
 
 import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
+import dev.moru3.werewolf.Werewolf
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -19,8 +20,8 @@ class SelfBomb: AbstractShopItem(Role.WOLF) {
         event.player.inventory.itemInMainHand.amount--
         event.player.world.spawnParticle(Particle.EXPLOSION_LARGE,event.player.location,100)
         event.player.world.playSound(event.player.location,Sound.ENTITY_GENERIC_EXPLODE,1F,1F)
-        event.playerData.game.players.values.mapNotNull { it.player }.filter { event.player.location.distance(it.location) < 5 }.forEach {
-            it.damage(it.player!!.health,event.player)
+        event.playerData.game.players.values.mapNotNull { it.player }.filter { player -> Werewolf.INSTANCE.gameInstances.any { it.players.containsKey(player.uniqueId) } }.filter { event.player.location.distance(it.location) < 5 }.forEach {
+            it.health = 0.0
         }
     }
 }

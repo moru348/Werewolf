@@ -3,6 +3,7 @@ package dev.moru3.werewolf.item
 import dev.moru3.minepie.Executor.Companion.runTaskLater
 import dev.moru3.minepie.item.EasyItem
 import dev.moru3.werewolf.Role
+import dev.moru3.werewolf.Team
 import dev.moru3.werewolf.Werewolf
 import dev.moru3.werewolf.event.WerewolfPlayerInteractEvent
 import org.bukkit.ChatColor
@@ -26,7 +27,7 @@ class LightningRod: AbstractShopItem(Role.WOLF) {
             it.sendTitle("${ChatColor.YELLOW}${ChatColor.BOLD}${ChatColor.MAGIC}~ ${ChatColor.YELLOW}${ChatColor.BOLD}LIGHTNING ${ChatColor.YELLOW}${ChatColor.BOLD}${ChatColor.MAGIC}~","人狼が停電を使用しました。",0,1,30)
         }
         Werewolf.INSTANCE.runTaskLater(10) {
-            event.playerData.game.players.values.filter { it.role != Role.WOLF }.mapNotNull { it.player }.forEach {
+            event.playerData.game.players.values.filter { it.role.team==Team.VILLAGE }.mapNotNull { it.player }.forEach {
                 it.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS,300,3,false,false,false))
             }
         }

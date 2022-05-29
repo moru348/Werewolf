@@ -42,7 +42,7 @@ class StanBall: AbstractShopItem() {
             if(this.entity.scoreboardTags.contains("morutan_stan")) {
                 this.entity.world.spawnParticle(Particle.EXPLOSION_LARGE,this.entity.location,30)
                 this.entity.world.playSound(this.entity.location,Sound.ENTITY_GENERIC_EXPLODE,1F,1F)
-                Bukkit.getOnlinePlayers().filter { it.location.distance(this.entity.location) < 3 }.forEach {
+                Bukkit.getOnlinePlayers().filter { player -> Werewolf.INSTANCE.gameInstances.any { it.players.containsKey(player.uniqueId) } }.filter { it.location.distance(this.entity.location) < 3 }.forEach {
                     stanPlayers.add(it.uniqueId)
                     it.playSound(it, Sound.ITEM_TOTEM_USE, 1F,0.7F)
                     it.sendTitle("${ChatColor.DARK_RED}${ChatColor.BOLD}${ChatColor.MAGIC}~ ${ChatColor.DARK_RED}${ChatColor.BOLD}STAN! ${ChatColor.DARK_RED}${ChatColor.BOLD}${ChatColor.MAGIC}~", "数秒間動けなくなります", 0, 80, 20)

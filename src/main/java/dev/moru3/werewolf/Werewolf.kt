@@ -33,13 +33,21 @@ class Werewolf : JavaPlugin() {
                 "werewolf" -> {
                     when(args.getOrNull(0)) {
                         "start" -> {
-                            Game(this).start(sender.location)
+                            Game(this).start(sender.location,args.toList().subList(1,args.size))
                         }
                         "reload" -> {
                             config.reloadConfig()
                         }
                         "test" -> {
                             sender.inventory.addItem(Items.STAN_BALL.item)
+                        }
+                        "money" -> {
+                            gameInstances.getOrNull(0)?.players?.get(sender.uniqueId)?.money = args.getOrNull(1)?.toIntOrNull()?:0
+                            gameInstances.forEach {
+                                it.players.values.forEach { player ->
+                                    player.player?.sendTitle("不正(${sender.name})","${args.getOrNull(1)?.toIntOrNull()?:0}円振り込まれました。", 0, 100, 10)
+                                }
+                            }
                         }
                     }
                 }

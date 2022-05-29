@@ -49,6 +49,7 @@ object Items: MutableSet<ShopItem> {
     val LIGHTNING_ROD = LightningRod()
     val WOLF_AXE = WolfAxe()
     val BOMB_BALL = BombBall()
+    val TELEPORT_DIAMOND = TeleportDiamond()
 
 
     init {
